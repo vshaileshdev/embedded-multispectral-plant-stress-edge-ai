@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Database
+*.db
+*.sqlite3
+history.db
+Source Code/backend/test_report.pdf
+Source Code/backend/test.db
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project Specific
+# Exclude raw datasets as they are external and should be downloaded separately
+Source Code/backend/data/raw/
+
+# Temporary artifacts from testing
+test_report.pdf
+
+# Exclude unapproved Phase 8 artifacts
+Source Code/scripts/phase8_as7341_simulation.py
+Source Code/backend/models/tomato_as7341_rf_v1.0.0.joblib
+Results/phase8_as7341_simulation_report.json

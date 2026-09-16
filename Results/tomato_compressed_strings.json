@@ -1,0 +1,78 @@
+{
+  "2023_d0_Leaf_Spec_Tomato_Stress.mat": {
+    "all_strings": [
+      "ãä",
+      "Åü",
+      "Ôø"
+    ],
+    "filtered_candidates": [
+      "ãä",
+      "Åü",
+      "Ôø"
+    ]
+  },
+  "2023_d14_Leaf_Spec_Tomato_Stress.mat": {
+    "all_strings": [
+      "ºY",
+      ","
+    ],
+    "filtered_candidates": [
+      "ºY",
+      ","
+    ]
+  },
+  "2023_d2_Leaf_Spec_Tomato_Stress.mat": {
+    "all_strings": [
+      "@C"
+    ],
+    "filtered_candidates": [
+      "@C"
+    ]
+  },
+  "2023_d4_Leaf_Spec_Tomato_Stress.mat": {
+    "all_strings": [
+      "ØS",
+      "ðÄ",
+      "àU",
+      "¹\"",
+      "þk",
+      "mï",
+      "C",
+      "\"\\",
+      "»",
+      "t£",
+      "P¸",
+      "¢g"
+    ],
+    "filtered_candidates": [
+      "ØS",
+      "ðÄ",
+      "àU",
+      "¹\"",
+      "þk",
+      "mï",
+      "C",
+      "\"\\",
+      "»",
+      "t£",
+      "P¸",
+      "¢g"
+    ]
+  },
+  "2023_d7_Leaf_Spec_Tomato_Stress.mat": {
+    "all_strings": [
+      "«",
+      "·{",
+      "É°",
+      "¹¼",
+      "×1"
+    ],
+    "filtered_candidates": [
+      "«",
+      "·{",
+      "É°",
+      "¹¼",
+      "×1"
+    ]
+  }
+}

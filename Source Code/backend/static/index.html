@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Plant Stress Detection</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <!-- Chart.js for rendering the spectrum -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>AI Plant Stress Detection</h1>
+        <div class="subtitle">Multispectral Diagnostic Platform (MVP)</div>
+    </header>
+
+    <main>
+        <!-- 1. Plant Selection & ID -->
+        <section class="card" id="section-setup">
+            <h2>1. Plant Setup</h2>
+            <div class="form-group">
+                <label for="plantSpecies">Plant Species:</label>
+                <select id="plantSpecies">
+                    <option value="tomato">Tomato (Solanum lycopersicum)</option>
+                    <option value="spinach" disabled>Spinach (Coming Soon)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="sensorProfile">Hardware Sensor Profile:</label>
+                <select id="sensorProfile">
+                    <option value="vis_nir_research">VIS-NIR Research Spectrometer (832 band)</option>
+                    <option value="as7341" disabled>AS7341 Edge Sensor (Coming Soon)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="plantId">Plant ID (Biological Identifier):</label>
+                <input type="text" id="plantId" placeholder="e.g., TOM-001" value="TOM-DEMO-001">
+            </div>
+        </section>
+
+        <!-- 2. Measurement -->
+        <section class="card" id="section-measurement">
+            <h2>2. Measurement Acquisition</h2>
+            <div class="demo-notice">
+                <strong>DEMO MODE:</strong> Hardware integration is deferred. Use the button below to load a valid 832-band spectrum from the existing research dataset.
+            </div>
+            <div class="actions">
+                <button id="btnLoadDemo" class="btn primary">Load Demo Spectrum</button>
+            </div>
+            
+            <div id="spectrumContainer" class="hidden">
+                <div class="success-text">✓ Spectrum acquired successfully (832 bands).</div>
+                <div class="chart-wrapper">
+                    <canvas id="spectrumChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Diagnosis -->
+        <section class="card" id="section-diagnosis">
+            <h2>3. AI Diagnosis</h2>
+            <div class="actions">
+                <button id="btnDiagnose" class="btn primary" disabled>Run Diagnosis</button>
+            </div>
+            
+            <div id="diagnosisResult" class="hidden result-box">
+                <h3 id="resDiagnosis">Control (Healthy)</h3>
+                <div class="res-meta">
+                    <span class="label">Confidence:</span> <span id="resConfidence">--%</span>
+                </div>
+                <div class="res-meta">
+                    <span class="label">Severity:</span> <span id="resSeverity">Not Supported in MVP</span>
+                </div>
+                <hr>
+                <div class="res-text">
+                    <strong>Interpretation:</strong>
+                    <p id="resInterpretation">...</p>
+                </div>
+                <div class="res-text">
+                    <strong>Recommendation:</strong>
+                    <p id="resRecommendation">...</p>
+                </div>
+                <div class="actions" style="margin-top: 1rem;">
+                    <button id="btnDownloadReport" class="btn secondary">Download PDF Report</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. History -->
+        <section class="card" id="section-history">
+            <h2>4. Measurement History</h2>
+            <div class="actions">
+                <button id="btnLoadHistory" class="btn secondary">Refresh History</button>
+            </div>
+            <div class="table-container">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Plant ID</th>
+                            <th>Diagnosis</th>
+                            <th>Confidence</th>
+                            <th>Report</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- History rows will be injected here -->
+                    </tbody>
+                </table>
+                <div id="historyEmpty" class="empty-text">No history found for this plant.</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

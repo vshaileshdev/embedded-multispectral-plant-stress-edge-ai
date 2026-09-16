@@ -1,0 +1,23 @@
+{
+  "model_id": "tomato_research_rf_v1.0.0",
+  "sensor_profile": "vis_nir_research",
+  "plant": "tomato",
+  "classes": [
+    "c",
+    "n",
+    "s"
+  ],
+  "training_dataset": {
+    "n_spectra": 137,
+    "illumination": "PAR1000",
+    "timepoints": [
+      "d2",
+      "d4",
+      "d7",
+      "d14"
+    ]
+  },
+  "artifact_path": "D:\\VIT Projects\\AI Plant Stress Detection\\Source Code\\backend\\models\\tomato_research_rf_v1.0.0.joblib",
+  "status": "READY_FOR_INFERENCE",
+  "expected_performance_reference": "Results/phase3a_candidate_feature_and_baseline_report.json"
+}

@@ -1,0 +1,62 @@
+{
+  "2023_d0_Leaf_Spec_Tomato_Stress.mat": {
+    "PAR1000_wvl_bands": 832,
+    "PAR1000_wvl_spectra": 6,
+    "PAR1000_wvl_min": 394.915,
+    "PAR1000_wvl_max": 1020.826,
+    "PAR1000_wvl_step_median": 0.7530000000000427,
+    "PAR300_wvl_bands": 832,
+    "PAR300_wvl_spectra": 6,
+    "PAR300_wvl_min": 394.915,
+    "PAR300_wvl_max": 1020.826,
+    "PAR300_wvl_step_median": 0.7530000000000427
+  },
+  "2023_d14_Leaf_Spec_Tomato_Stress.mat": {
+    "PAR1000_wvl_bands": 832,
+    "PAR1000_wvl_spectra": 35,
+    "PAR1000_wvl_min": 394.915,
+    "PAR1000_wvl_max": 1020.826,
+    "PAR1000_wvl_step_median": 0.7530000000000427,
+    "PAR300_wvl_bands": 832,
+    "PAR300_wvl_spectra": 35,
+    "PAR300_wvl_min": 394.915,
+    "PAR300_wvl_max": 1020.826,
+    "PAR300_wvl_step_median": 0.7530000000000427
+  },
+  "2023_d2_Leaf_Spec_Tomato_Stress.mat": {
+    "PAR1000_wvl_bands": 832,
+    "PAR1000_wvl_spectra": 30,
+    "PAR1000_wvl_min": 394.915,
+    "PAR1000_wvl_max": 1020.826,
+    "PAR1000_wvl_step_median": 0.7530000000000427,
+    "PAR300_wvl_bands": 832,
+    "PAR300_wvl_spectra": 30,
+    "PAR300_wvl_min": 394.915,
+    "PAR300_wvl_max": 1020.826,
+    "PAR300_wvl_step_median": 0.7530000000000427
+  },
+  "2023_d4_Leaf_Spec_Tomato_Stress.mat": {
+    "PAR1000_wvl_bands": 832,
+    "PAR1000_wvl_spectra": 36,
+    "PAR1000_wvl_min": 394.915,
+    "PAR1000_wvl_max": 1020.826,
+    "PAR1000_wvl_step_median": 0.7530000000000427,
+    "PAR300_wvl_bands": 832,
+    "PAR300_wvl_spectra": 36,
+    "PAR300_wvl_min": 394.915,
+    "PAR300_wvl_max": 1020.826,
+    "PAR300_wvl_step_median": 0.7530000000000427
+  },
+  "2023_d7_Leaf_Spec_Tomato_Stress.mat": {
+    "PAR1000_wvl_bands": 832,
+    "PAR1000_wvl_spectra": 36,
+    "PAR1000_wvl_min": 394.915,
+    "PAR1000_wvl_max": 1020.826,
+    "PAR1000_wvl_step_median": 0.7530000000000427,
+    "PAR300_wvl_bands": 832,
+    "PAR300_wvl_spectra": 36,
+    "PAR300_wvl_min": 394.915,
+    "PAR300_wvl_max": 1020.826,
+    "PAR300_wvl_step_median": 0.7530000000000427
+  }
+}

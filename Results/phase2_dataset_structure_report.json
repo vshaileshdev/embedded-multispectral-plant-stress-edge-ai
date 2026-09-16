@@ -1,0 +1,245 @@
+{
+  "report_type": "phase2_dataset_structuring_and_validation",
+  "generated_at": "2026-09-16T07:53:10.781586",
+  "total_spectra": 286,
+  "par1000_spectra": 143,
+  "par300_spectra": 143,
+  "wavelength_bands": 832,
+  "wavelength_range": [
+    394.915,
+    1020.826
+  ],
+  "par_comparison": {
+    "mean_pearson_correlation": 0.9912744506856438,
+    "min_pearson_correlation": 0.9871291615803353,
+    "mean_absolute_difference": 0.01852933602310518,
+    "max_absolute_difference": 0.173750174704332,
+    "conclusion": "PAR300 and PAR1000 are paired measurements of the same leaf; grouping by plant_id is mandatory if combined."
+  },
+  "biological_units_per_class": {
+    "c": 7,
+    "s": 6,
+    "n": 6
+  },
+  "plants_per_class": {
+    "c": [
+      "c_r1",
+      "c_r2",
+      "c_r3",
+      "c_r4",
+      "c_r5",
+      "c_r6",
+      "c_r7"
+    ],
+    "s": [
+      "s_r1",
+      "s_r2",
+      "s_r3",
+      "s_r4",
+      "s_r5",
+      "s_r6"
+    ],
+    "n": [
+      "n_r1",
+      "n_r2",
+      "n_r3",
+      "n_r4",
+      "n_r5",
+      "n_r6"
+    ]
+  },
+  "spectra_per_class_par1000": {
+    "c": 52,
+    "s": 46,
+    "n": 45
+  },
+  "spectra_per_class_post_d0": {
+    "c": 46,
+    "s": 46,
+    "n": 45
+  },
+  "class_balance": "approximately balanced (46 Control, 46 Drought, 45 Nitrogen Deficit post-treatment)",
+  "cross_validation_evaluation": {
+    "stratified_group_kfold_k5": {
+      "leakage_detected": false,
+      "folds": [
+        {
+          "fold": 1,
+          "train_samples": 107,
+          "val_samples": 30,
+          "train_plants": [
+            "c_r1",
+            "c_r2",
+            "c_r3",
+            "c_r4",
+            "c_r6",
+            "n_r1",
+            "n_r2",
+            "n_r4",
+            "n_r5",
+            "s_r1",
+            "s_r2",
+            "s_r3",
+            "s_r4",
+            "s_r6"
+          ],
+          "val_plants": [
+            "c_r5",
+            "n_r3",
+            "n_r6",
+            "s_r5"
+          ],
+          "val_class_distribution": {
+            "c": 8,
+            "s": 9,
+            "n": 13
+          },
+          "leakage_overlap": []
+        },
+        {
+          "fold": 2,
+          "train_samples": 113,
+          "val_samples": 24,
+          "train_plants": [
+            "c_r2",
+            "c_r3",
+            "c_r4",
+            "c_r5",
+            "c_r6",
+            "n_r2",
+            "n_r3",
+            "n_r4",
+            "n_r5",
+            "n_r6",
+            "s_r2",
+            "s_r3",
+            "s_r4",
+            "s_r5",
+            "s_r6"
+          ],
+          "val_plants": [
+            "c_r1",
+            "n_r1",
+            "s_r1"
+          ],
+          "val_class_distribution": {
+            "c": 8,
+            "s": 8,
+            "n": 8
+          },
+          "leakage_overlap": []
+        },
+        {
+          "fold": 3,
+          "train_samples": 113,
+          "val_samples": 24,
+          "train_plants": [
+            "c_r1",
+            "c_r3",
+            "c_r4",
+            "c_r5",
+            "c_r6",
+            "n_r1",
+            "n_r3",
+            "n_r4",
+            "n_r5",
+            "n_r6",
+            "s_r1",
+            "s_r3",
+            "s_r4",
+            "s_r5",
+            "s_r6"
+          ],
+          "val_plants": [
+            "c_r2",
+            "n_r2",
+            "s_r2"
+          ],
+          "val_class_distribution": {
+            "c": 8,
+            "s": 8,
+            "n": 8
+          },
+          "leakage_overlap": []
+        },
+        {
+          "fold": 4,
+          "train_samples": 113,
+          "val_samples": 24,
+          "train_plants": [
+            "c_r1",
+            "c_r2",
+            "c_r4",
+            "c_r5",
+            "c_r6",
+            "n_r1",
+            "n_r2",
+            "n_r3",
+            "n_r5",
+            "n_r6",
+            "s_r1",
+            "s_r2",
+            "s_r4",
+            "s_r5",
+            "s_r6"
+          ],
+          "val_plants": [
+            "c_r3",
+            "n_r4",
+            "s_r3"
+          ],
+          "val_class_distribution": {
+            "c": 8,
+            "s": 8,
+            "n": 8
+          },
+          "leakage_overlap": []
+        },
+        {
+          "fold": 5,
+          "train_samples": 102,
+          "val_samples": 35,
+          "train_plants": [
+            "c_r1",
+            "c_r2",
+            "c_r3",
+            "c_r5",
+            "n_r1",
+            "n_r2",
+            "n_r3",
+            "n_r4",
+            "n_r6",
+            "s_r1",
+            "s_r2",
+            "s_r3",
+            "s_r5"
+          ],
+          "val_plants": [
+            "c_r4",
+            "c_r6",
+            "n_r5",
+            "s_r4",
+            "s_r6"
+          ],
+          "val_class_distribution": {
+            "c": 14,
+            "s": 13,
+            "n": 8
+          },
+          "leakage_overlap": []
+        }
+      ]
+    },
+    "leave_one_group_out": {
+      "n_splits": 18,
+      "leakage_detected": false
+    }
+  },
+  "modeling_unit": {
+    "unit_description": "Single leaf reflectance spectrum (832 bands) under standardized illumination",
+    "recommended_baseline": "PAR1000",
+    "grouping_variable": "plant_id",
+    "severity_status": "DISABLED",
+    "confidence_interpretation": "Probabilistic model certainty, not biological severity"
+  }
+}

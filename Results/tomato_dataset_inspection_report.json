@@ -1,0 +1,972 @@
+{
+  "report_type": "phase1_dataset_scientific_inspection",
+  "generated_at": "2026-09-16T07:47:47.318218",
+  "files_inspected": 5,
+  "files": [
+    {
+      "filename": "2023_d0_Leaf_Spec_Tomato_Stress.mat",
+      "day": "d0",
+      "size_kb": 746.3,
+      "structures": [
+        "PAR1000",
+        "PAR300"
+      ],
+      "variables": {
+        "wvl": {
+          "shape": [
+            6,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Wavelength vector (nm)"
+        },
+        "PAR": {
+          "shape": [
+            6,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance (mW/m2/sr/nm)"
+        },
+        "PARf": {
+          "shape": [
+            6,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance with fluorescence filter"
+        },
+        "refl_real": {
+          "shape": [
+            6,
+            832
+          ],
+          "dtype": "float64",
+          "range": [
+            0.0031999516871531516,
+            0.7186397117454497
+          ]
+        },
+        "trans_real": {
+          "shape": [
+            6,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 1
+        },
+        "abs_real": {
+          "shape": [
+            6,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 1115
+        },
+        "refl_real_smooth": {
+          "shape": [
+            6,
+            832
+          ],
+          "description": "Pre-smoothed 656-658 nm to remove fluorescence artifact"
+        },
+        "trans_real_smooth": {
+          "shape": [
+            6,
+            832
+          ]
+        },
+        "abs_real_smooth": {
+          "shape": [
+            6,
+            832
+          ]
+        },
+        "Fup": {
+          "shape": [
+            6,
+            832
+          ],
+          "description": "Forward chlorophyll fluorescence"
+        },
+        "Fdw": {
+          "shape": [
+            6,
+            832
+          ],
+          "description": "Backward chlorophyll fluorescence"
+        },
+        "treatment": {
+          "count": 6,
+          "values": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ]
+        },
+        "repli": {
+          "count": 6,
+          "values": [
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r7"
+          ]
+        }
+      },
+      "par1000_spectra": 6,
+      "par300_spectra": 6,
+      "nan_in_refl": 0,
+      "neg_trans_count": 1,
+      "neg_abs_count": 1115
+    },
+    {
+      "filename": "2023_d14_Leaf_Spec_Tomato_Stress.mat",
+      "day": "d14",
+      "size_kb": 4253.6,
+      "structures": [
+        "PAR1000",
+        "PAR300"
+      ],
+      "variables": {
+        "wvl": {
+          "shape": [
+            35,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Wavelength vector (nm)"
+        },
+        "PAR": {
+          "shape": [
+            35,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance (mW/m2/sr/nm)"
+        },
+        "PARf": {
+          "shape": [
+            35,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance with fluorescence filter"
+        },
+        "refl_real": {
+          "shape": [
+            35,
+            832
+          ],
+          "dtype": "float64",
+          "range": [
+            0.0016205738794221837,
+            0.6466194668488434
+          ]
+        },
+        "trans_real": {
+          "shape": [
+            35,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 6
+        },
+        "abs_real": {
+          "shape": [
+            35,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 2071
+        },
+        "refl_real_smooth": {
+          "shape": [
+            35,
+            832
+          ],
+          "description": "Pre-smoothed 656-658 nm to remove fluorescence artifact"
+        },
+        "trans_real_smooth": {
+          "shape": [
+            35,
+            832
+          ]
+        },
+        "abs_real_smooth": {
+          "shape": [
+            35,
+            832
+          ]
+        },
+        "Fup": {
+          "shape": [
+            35,
+            832
+          ],
+          "description": "Forward chlorophyll fluorescence"
+        },
+        "Fdw": {
+          "shape": [
+            35,
+            832
+          ],
+          "description": "Backward chlorophyll fluorescence"
+        },
+        "treatment": {
+          "count": 35,
+          "values": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s"
+          ]
+        },
+        "repli": {
+          "count": 35,
+          "values": [
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6"
+          ]
+        }
+      },
+      "par1000_spectra": 35,
+      "par300_spectra": 35,
+      "nan_in_refl": 0,
+      "neg_trans_count": 6,
+      "neg_abs_count": 2071
+    },
+    {
+      "filename": "2023_d2_Leaf_Spec_Tomato_Stress.mat",
+      "day": "d2",
+      "size_kb": 3649.1,
+      "structures": [
+        "PAR1000",
+        "PAR300"
+      ],
+      "variables": {
+        "wvl": {
+          "shape": [
+            30,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Wavelength vector (nm)"
+        },
+        "PAR": {
+          "shape": [
+            30,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance (mW/m2/sr/nm)"
+        },
+        "PARf": {
+          "shape": [
+            30,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance with fluorescence filter"
+        },
+        "refl_real": {
+          "shape": [
+            30,
+            832
+          ],
+          "dtype": "float64",
+          "range": [
+            0.0005900300115648274,
+            0.6330601961399178
+          ]
+        },
+        "trans_real": {
+          "shape": [
+            30,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 2
+        },
+        "abs_real": {
+          "shape": [
+            30,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 1394
+        },
+        "refl_real_smooth": {
+          "shape": [
+            30,
+            832
+          ],
+          "description": "Pre-smoothed 656-658 nm to remove fluorescence artifact"
+        },
+        "trans_real_smooth": {
+          "shape": [
+            30,
+            832
+          ]
+        },
+        "abs_real_smooth": {
+          "shape": [
+            30,
+            832
+          ]
+        },
+        "Fup": {
+          "shape": [
+            30,
+            832
+          ],
+          "description": "Forward chlorophyll fluorescence"
+        },
+        "Fdw": {
+          "shape": [
+            30,
+            832
+          ],
+          "description": "Backward chlorophyll fluorescence"
+        },
+        "treatment": {
+          "count": 30,
+          "values": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s"
+          ]
+        },
+        "repli": {
+          "count": 30,
+          "values": [
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5"
+          ]
+        }
+      },
+      "par1000_spectra": 30,
+      "par300_spectra": 30,
+      "nan_in_refl": 0,
+      "neg_trans_count": 2,
+      "neg_abs_count": 1394
+    },
+    {
+      "filename": "2023_d4_Leaf_Spec_Tomato_Stress.mat",
+      "day": "d4",
+      "size_kb": 4375.1,
+      "structures": [
+        "PAR1000",
+        "PAR300"
+      ],
+      "variables": {
+        "wvl": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Wavelength vector (nm)"
+        },
+        "PAR": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance (mW/m2/sr/nm)"
+        },
+        "PARf": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance with fluorescence filter"
+        },
+        "refl_real": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "range": [
+            0.0019510185744484492,
+            0.6126821736013616
+          ]
+        },
+        "trans_real": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 3
+        },
+        "abs_real": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 3075
+        },
+        "refl_real_smooth": {
+          "shape": [
+            36,
+            832
+          ],
+          "description": "Pre-smoothed 656-658 nm to remove fluorescence artifact"
+        },
+        "trans_real_smooth": {
+          "shape": [
+            36,
+            832
+          ]
+        },
+        "abs_real_smooth": {
+          "shape": [
+            36,
+            832
+          ]
+        },
+        "Fup": {
+          "shape": [
+            36,
+            832
+          ],
+          "description": "Forward chlorophyll fluorescence"
+        },
+        "Fdw": {
+          "shape": [
+            36,
+            832
+          ],
+          "description": "Backward chlorophyll fluorescence"
+        },
+        "treatment": {
+          "count": 36,
+          "values": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s"
+          ]
+        },
+        "repli": {
+          "count": 36,
+          "values": [
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6"
+          ]
+        }
+      },
+      "par1000_spectra": 36,
+      "par300_spectra": 36,
+      "nan_in_refl": 0,
+      "neg_trans_count": 3,
+      "neg_abs_count": 3075
+    },
+    {
+      "filename": "2023_d7_Leaf_Spec_Tomato_Stress.mat",
+      "day": "d7",
+      "size_kb": 4377.0,
+      "structures": [
+        "PAR1000",
+        "PAR300"
+      ],
+      "variables": {
+        "wvl": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Wavelength vector (nm)"
+        },
+        "PAR": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance (mW/m2/sr/nm)"
+        },
+        "PARf": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "description": "Incoming radiance with fluorescence filter"
+        },
+        "refl_real": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "range": [
+            0.0033196708662955356,
+            0.5992205839451971
+          ]
+        },
+        "trans_real": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 1
+        },
+        "abs_real": {
+          "shape": [
+            36,
+            832
+          ],
+          "dtype": "float64",
+          "neg_count": 2836
+        },
+        "refl_real_smooth": {
+          "shape": [
+            36,
+            832
+          ],
+          "description": "Pre-smoothed 656-658 nm to remove fluorescence artifact"
+        },
+        "trans_real_smooth": {
+          "shape": [
+            36,
+            832
+          ]
+        },
+        "abs_real_smooth": {
+          "shape": [
+            36,
+            832
+          ]
+        },
+        "Fup": {
+          "shape": [
+            36,
+            832
+          ],
+          "description": "Forward chlorophyll fluorescence"
+        },
+        "Fdw": {
+          "shape": [
+            36,
+            832
+          ],
+          "description": "Backward chlorophyll fluorescence"
+        },
+        "treatment": {
+          "count": 36,
+          "values": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "n",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s",
+            "s"
+          ]
+        },
+        "repli": {
+          "count": 36,
+          "values": [
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r4",
+            "r5",
+            "r5",
+            "r6",
+            "r6",
+            "r1",
+            "r1",
+            "r2",
+            "r2",
+            "r3",
+            "r3",
+            "r4",
+            "r5",
+            "r5",
+            "r5",
+            "r6",
+            "r6"
+          ]
+        }
+      },
+      "par1000_spectra": 36,
+      "par300_spectra": 36,
+      "nan_in_refl": 0,
+      "neg_trans_count": 1,
+      "neg_abs_count": 2836
+    }
+  ],
+  "wavelength": {
+    "min_nm": 394.915,
+    "max_nm": 1020.826,
+    "step_nm": 0.7530000000000427,
+    "bands": 832
+  },
+  "class_distribution_par1000": {
+    "c": 52,
+    "n": 45,
+    "s": 46
+  },
+  "class_distribution_post_d0": {
+    "c": 46,
+    "n": 45,
+    "s": 46
+  },
+  "biological_plants_per_class": {
+    "c": [
+      "c_r2",
+      "c_r4",
+      "c_r5",
+      "c_r3",
+      "c_r1",
+      "c_r6",
+      "c_r7"
+    ],
+    "n": [
+      "n_r4",
+      "n_r1",
+      "n_r3",
+      "n_r6",
+      "n_r2",
+      "n_r5"
+    ],
+    "s": [
+      "s_r6",
+      "s_r5",
+      "s_r4",
+      "s_r3",
+      "s_r1",
+      "s_r2"
+    ]
+  },
+  "as7341_feasibility": {
+    "as7341_channels_nm": [
+      415,
+      445,
+      480,
+      515,
+      555,
+      590,
+      630,
+      680,
+      910
+    ],
+    "dataset_wvl_range_nm": [
+      394.915,
+      1020.826
+    ],
+    "dataset_wvl_step_nm": 0.7530000000000427,
+    "channels": {
+      "415nm": {
+        "centre_nm": 415,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "445nm": {
+        "centre_nm": 445,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "480nm": {
+        "centre_nm": 480,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "515nm": {
+        "centre_nm": 515,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "555nm": {
+        "centre_nm": 555,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "590nm": {
+        "centre_nm": 590,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "630nm": {
+        "centre_nm": 630,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "680nm": {
+        "centre_nm": 680,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      },
+      "910nm": {
+        "centre_nm": 910,
+        "in_wavelength_range": true,
+        "resolution_adequate": true,
+        "feasible": true
+      }
+    },
+    "overall_coverage_feasible": true,
+    "scientific_notes": [
+      "Dataset provides dense spectral sampling (~0.75 nm step) from 394.9 to 1020.8 nm, covering all 9 AS7341 filter bands.",
+      "Numerical simulation of AS7341 via spectral response function (SRF) integration is mathematically and spectrally feasible.",
+      "AS7341 does NOT measure the 970 nm or 1450 nm liquid water absorption bands; drought detection on AS7341 relies on secondary pigment/photoprotective reflectance changes.",
+      "Accurate simulation requires manufacturer-verified filter transmission curves."
+    ]
+  },
+  "feasibility_gate": {
+    "status": "PASS_WITH_CONSTRAINTS",
+    "reasoning": "Dataset contains 6 biological units per class (143 spectra total). Sufficient for rigorous Group-aware Cross-Validation (Leave-One-Group-Out or 5-Fold Stratified Group K-Fold by plant ID). Standard random split is STRICTLY PROHIBITED due to repeated leaf/day measurements. Classification generalisation must be evaluated strictly across unseen plants.",
+    "min_biological_units": 6
+  }
+}
