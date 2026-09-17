@@ -25,12 +25,6 @@ class DiagnosisReportPDF(FPDF):
         self.set_font('Helvetica', '', 12)
         self.cell(0, 10, 'Diagnosis Report (MVP)', border=0, new_x='LMARGIN', new_y='NEXT', align='C')
         self.ln(10)
-        
-        # Demo Watermark
-        if self.record.is_demo:
-            self.set_font('Helvetica', 'B', 40)
-            self.set_text_color(255, 200, 200) # Faint red
-            # Rotate not strictly needed, just place it in background or top right
             
     def footer(self):
         self.set_y(-25)
@@ -50,13 +44,6 @@ class DiagnosisReportPDF(FPDF):
 
     def generate(self):
         self.add_page()
-        
-        # If Demo, add a visible badge at the top
-        if self.record.is_demo:
-            self.set_font('Helvetica', 'B', 14)
-            self.set_text_color(220, 50, 50)
-            self.cell(0, 10, "*** DEMONSTRATION DATA ***", align='C', new_x='LMARGIN', new_y='NEXT')
-            self.ln(5)
             
         self.set_text_color(0, 0, 0)
         
@@ -65,64 +52,153 @@ class DiagnosisReportPDF(FPDF):
         self.set_fill_color(239, 247, 211) # Light BG
         self.cell(0, 8, " 1. Measurement Details", fill=True, new_x='LMARGIN', new_y='NEXT')
         
-        self.set_font('Helvetica', '', 10)
-        self.ln(2)
-        
-        dt_str = self.record.measurement_timestamp.strftime("%Y-%m-%d %H:%M:%S UTC")
-        
-        def dict_row(k, v):
-            self.set_font('Helvetica', 'B', 10)
-            self.cell(40, 6, k, border=0)
-            self.set_font('Helvetica', '', 10)
-            self.cell(0, 6, str(v), border=0, new_x='LMARGIN', new_y='NEXT')
-            
-        dict_row("Report ID:", self.record.measurement_id)
-        dict_row("Date & Time:", dt_str)
-        dict_row("Plant Species:", self.record.plant_species.capitalize())
-        dict_row("Plant ID:", self.record.plant_id)
-        dict_row("Sensor Profile:", self.record.sensor_profile)
-        dict_row("Model Instance:", self.record.model_id)
-        
+        self.set_font('Helvetica', '', 10)        # Header
+        self.set_font('Helvetica', 'B', 20)
+        self.set_text_color(90, 130, 82)
+        self.cell(0, 15, 'Plant Stress Diagnostic Report', align='C', new_x='LMARGIN', new_y='NEXT')
         self.ln(5)
         
-        # 2. Diagnosis Results
-        self.set_font('Helvetica', 'B', 12)
-        self.cell(0, 8, " 2. AI Diagnosis", fill=True, new_x='LMARGIN', new_y='NEXT')
-        self.ln(2)
-        
+        # 1. Measurement Information
         self.set_font('Helvetica', 'B', 14)
         self.set_text_color(90, 130, 82)
-        self.cell(0, 10, f"{self.record.diagnosis}", new_x='LMARGIN', new_y='NEXT')
-        
+        self.cell(0, 10, '1. Measurement Information', new_x='LMARGIN', new_y='NEXT')
+        self.set_font('Helvetica', '', 11)
         self.set_text_color(0, 0, 0)
-        conf_str = f"{(self.record.model_confidence * 100):.1f}%"
         
-        dict_row("Model Confidence:", conf_str)
-        dict_row("Biological Severity:", "Not supported in current MVP")
-        
+        info = [
+            f"Plant Species: {self.record.plant_species.capitalize()}",
+            f"Biological Plant ID: {self.record.plant_id}",
+            f"Experimental Day: {self.record.experimental_day or 'Unknown'}",
+            f"Sample ID: {self.record.sample_id or 'Unknown'}",
+            f"Dataset Source: {self.record.dataset_source}",
+            f"Sensor Profile: {self.record.sensor_profile}",
+            f"Date / Time: {self.record.measurement_timestamp.strftime('%Y-%m-%d %H:%M:%S')}",
+            f"Model Version: {self.record.model_id}"
+        ]
+        for line in info:
+            self.cell(0, 6, line, new_x='LMARGIN', new_y='NEXT')
+            
         self.ln(5)
         
-        # 3. Interpretation & Recommendation
-        mapping = {"interpretation": "N/A", "recommendation": "N/A"}
-        for k, v in self.interpretation_map.items():
-            if v["diagnosis"] == self.record.diagnosis:
-                mapping = v
+        # 2. AI Diagnosis
+        self.set_font('Helvetica', 'B', 14)
+        self.set_text_color(90, 130, 82)
+        self.cell(0, 10, '2. AI Diagnosis', new_x='LMARGIN', new_y='NEXT')
+        self.set_text_color(0, 0, 0)
+        
+        self.set_font('Helvetica', 'B', 12)
+        self.cell(45, 8, 'Predicted Condition:')
+        self.set_font('Helvetica', '', 12)
+        self.cell(0, 8, self.record.diagnosis, new_x='LMARGIN', new_y='NEXT')
+        
+        self.set_font('Helvetica', 'B', 12)
+        self.cell(45, 8, 'Model Confidence:')
+        self.set_font('Helvetica', '', 12)
+        self.cell(0, 8, f"{(self.record.model_confidence * 100):.1f}%", new_x='LMARGIN', new_y='NEXT')
+        
+        # Severity
+        self.set_font('Helvetica', 'I', 10)
+        self.multi_cell(0, 6, "Note: Model confidence is statistical probability. Biological severity estimation is not validated because the training dataset does not contain severity labels.")
+        self.ln(3)
+
+        # 3. Class Probabilities
+        self.set_font('Helvetica', 'B', 14)
+        self.set_text_color(90, 130, 82)
+        self.cell(0, 10, '3. Class Probabilities', new_x='LMARGIN', new_y='NEXT')
+        self.set_text_color(0, 0, 0)
+        self.set_font('Helvetica', '', 11)
+        
+        import json
+        probs = {}
+        try:
+            if getattr(self.record, 'class_probabilities_json', None):
+                probs = json.loads(self.record.class_probabilities_json)
+        except: pass
+
+        if probs:
+            for cls, p in probs.items():
+                self.cell(0, 6, f"{cls}: {(p*100):.1f}%", new_x='LMARGIN', new_y='NEXT')
+        else:
+            self.cell(0, 6, "Not available.", new_x='LMARGIN', new_y='NEXT')
+        
+        # Mapping logic
+        mapping = {"interpretation": "", "recommendation": "", "potential_effects": []}
+        for key, val in self.interpretation_map.items():
+            if val["diagnosis"] == self.record.diagnosis:
+                mapping = val
                 break
                 
-        self.set_font('Helvetica', 'B', 12)
-        self.cell(0, 8, " 3. Interpretation & Recommendation", fill=True, new_x='LMARGIN', new_y='NEXT')
+        self.ln(5)
+        
+        # 4. Model Explainability
+        self.set_font('Helvetica', 'B', 14)
+        self.set_text_color(90, 130, 82)
+        self.cell(0, 10, '4. Model Explainability', new_x='LMARGIN', new_y='NEXT')
+        self.set_text_color(0, 0, 0)
+        
+        top_features = []
+        try:
+            if self.record.top_features_json:
+                top_features = json.loads(self.record.top_features_json)
+        except: pass
+        
+        if top_features:
+            self.set_font('Helvetica', 'B', 11)
+            self.cell(0, 6, f"Top model-relevant features: {', '.join(top_features)}", new_x='LMARGIN', new_y='NEXT')
+        
+        self.set_font('Helvetica', 'I', 10)
+        self.multi_cell(0, 5, "These features are among the most influential in the trained Random Forest model. They provide model-level evidence for how the classifier uses the extracted spectral information.")
         self.ln(2)
         
-        self.set_font('Helvetica', 'B', 10)
-        self.cell(0, 6, "Interpretation:", new_x='LMARGIN', new_y='NEXT')
-        self.set_font('Helvetica', '', 10)
-        self.multi_cell(0, 6, mapping.get("interpretation", "Plant-specific recommendation layer pending validated knowledge configuration."))
+        self.set_font('Helvetica', '', 11)
+        self.multi_cell(0, 6, f"Biological Interpretation: {mapping.get('interpretation', 'N/A')}")
+        self.ln(5)
+
+        # 5. Potential Effects
+        self.set_font('Helvetica', 'B', 14)
+        self.set_text_color(90, 130, 82)
+        self.cell(0, 10, '5. Potential Effects', new_x='LMARGIN', new_y='NEXT')
+        self.set_text_color(0, 0, 0)
+        self.set_font('Helvetica', 'I', 10)
+        self.multi_cell(0, 5, "These are potential effects associated with the detected stress condition and are not direct measurements from the current spectrum.")
+        self.set_font('Helvetica', '', 11)
+        effects = mapping.get('potential_effects', [])
+        for eff in effects:
+            self.cell(0, 6, f"- {eff}", new_x='LMARGIN', new_y='NEXT')
+        self.ln(5)
+
+        # 6. Recommendation
+        self.set_font('Helvetica', 'B', 14)
+        self.set_text_color(90, 130, 82)
+        self.cell(0, 10, '6. Plant-Specific Recommendation', new_x='LMARGIN', new_y='NEXT')
+        self.set_text_color(0, 0, 0)
+        self.set_font('Helvetica', '', 11)
+        self.multi_cell(0, 6, mapping.get('recommendation', 'N/A'))
         
-        self.ln(2)
-        self.set_font('Helvetica', 'B', 10)
-        self.cell(0, 6, "Recommendation:", new_x='LMARGIN', new_y='NEXT')
-        self.set_font('Helvetica', '', 10)
-        self.multi_cell(0, 6, mapping.get("recommendation", "Plant-specific recommendation layer pending validated knowledge configuration."))
+        # 6. Spectral Features Table
+        features = {}
+        try:
+            if self.record.features_json:
+                features = json.loads(self.record.features_json)
+        except: pass
+        
+        if features:
+            self.ln(10)
+            self.add_page()
+            self.set_font('Helvetica', 'B', 14)
+            self.set_text_color(90, 130, 82)
+            self.cell(0, 10, '6. Spectral Feature Analysis (Extracted)', new_x='LMARGIN', new_y='NEXT')
+            self.set_text_color(0, 0, 0)
+            
+            self.set_fill_color(239, 247, 211)
+            self.set_font('Helvetica', 'B', 10)
+            self.cell(80, 8, 'Feature', border=1, fill=True)
+            self.cell(80, 8, 'Value', border=1, fill=True, new_x='LMARGIN', new_y='NEXT')
+            
+            self.set_font('Helvetica', '', 10)
+            for feat, val in features.items():
+                self.cell(80, 8, str(feat), border=1)
+                self.cell(80, 8, f"{val:.4f}", border=1, new_x='LMARGIN', new_y='NEXT')
         
         # Output to bytes
         pdf_bytes = self.output()

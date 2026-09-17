@@ -11,11 +11,17 @@ class MeasurementHistory(Base):
     plant_species = Column(String, index=True)
     plant_id = Column(String, index=True)
     sensor_profile = Column(String, index=True)
+    experimental_day = Column(String, nullable=True)
     measurement_timestamp = Column(DateTime, default=datetime.utcnow)
     
     diagnosis = Column(String)
     model_confidence = Column(Float)
     severity = Column(String, nullable=True)
     
+    features_json = Column(String, nullable=True)
+    top_features_json = Column(String, nullable=True)
+    class_probabilities_json = Column(String, nullable=True)
+    
     model_id = Column(String)
-    is_demo = Column(Boolean, default=False)
+    dataset_source = Column(String, nullable=True, default="Research Dataset")
+    sample_id = Column(String, nullable=True)

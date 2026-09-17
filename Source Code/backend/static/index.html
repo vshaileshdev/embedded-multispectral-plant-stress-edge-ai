@@ -3,114 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Plant Stress Detection</title>
+    <title>Multispectral Plant Stress Classification</title>
     <link rel="stylesheet" href="/static/css/styles.css">
     <!-- Chart.js for rendering the spectrum -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Modals and Probs Styles */
+        .info-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #AEC364;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-left: 8px;
+            vertical-align: middle;
+            user-select: none;
+        }
+        .info-btn:hover { background-color: #86AB62; }
+        
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .modal.hidden { display: none; }
+        .modal-content {
+            background: #fff; padding: 20px; border-radius: 8px; max-width: 500px; width: 90%;
+        }
+        .modal-content h3 { margin-top: 0; color: #5A8252; }
+        .text-muted { color: #666; font-size: 0.9em; }
+
+        .prob-row { display: flex; align-items: center; margin-bottom: 5px; font-size: 0.9em; }
+        .prob-label { width: 150px; text-align: right; margin-right: 10px; }
+        .prob-bar-bg { flex-grow: 1; background: #eee; height: 12px; border-radius: 6px; overflow: hidden; }
+        .prob-bar-fill { height: 100%; background: #5A8252; }
+        .prob-val { width: 50px; text-align: right; margin-left: 10px; }
+        
+        .feat-rank-card {
+            background: #EFF7D3; padding: 10px; margin-bottom: 5px; border-radius: 4px;
+            border-left: 4px solid #5A8252;
+        }
+
+        .capability-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #5A8252;
+            margin-bottom: 20px;
+            justify-content: center;
+            padding: 10px;
+            background: #EFF7D3;
+            border-radius: 8px;
+        }
+        .capability-row span {
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>AI Plant Stress Detection</h1>
-        <div class="subtitle">Multispectral Diagnostic Platform (MVP)</div>
+    <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; text-align: left;">
+        <div>
+            <h1 style="margin-bottom: 0;">Multispectral Plant Stress Classification</h1>
+            <div class="subtitle" style="margin-top: 5px;">Embedded multispectral sensing and plant-specific machine-learning diagnosis</div>
+        </div>
+        <button id="btnSystemOverview" style="background-color: #AEC364; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">ⓘ System Overview</button>
     </header>
 
     <main>
         <!-- 1. Plant Selection & ID -->
         <section class="card" id="section-setup">
-            <h2>1. Plant Setup</h2>
+            <h2>1. Plant Setup <span class="info-btn" data-title="Plant Setup" data-text="This section identifies the plant being analyzed. Plant species determines which plant-specific model, stress categories and interpretation rules are used.">i</span></h2>
             <div class="form-group">
                 <label for="plantSpecies">Plant Species:</label>
                 <select id="plantSpecies">
-                    <option value="tomato">Tomato (Solanum lycopersicum)</option>
-                    <option value="spinach" disabled>Spinach (Coming Soon)</option>
+                    <!-- Populated via JS -->
                 </select>
             </div>
+            
+            <div id="plantProfileInfo" class="info-panel" style="background: #fdfdfd; padding: 15px; border-left: 4px solid #AEC364; margin-bottom: 15px;">
+                <!-- Filled via JS -->
+            </div>
+
             <div class="form-group">
-                <label for="sensorProfile">Hardware Sensor Profile:</label>
+                <label for="sensorProfile">Sensor Profile <span class="info-btn" data-title="Sensor Profile" data-text="The current software accepts high-resolution leaf spectral measurements covering approximately 395–1021 nm. The available Tomato research dataset contains 832 wavelength samples per spectrum. These measurements are currently used as the spectral input to the machine-learning pipeline.">i</span>:</label>
                 <select id="sensorProfile">
                     <option value="vis_nir_research">VIS-NIR Research Spectrometer (832 band)</option>
-                    <option value="as7341" disabled>AS7341 Edge Sensor (Coming Soon)</option>
+                    <option value="as7341" disabled>AS7341 Edge Sensor (Hardware integration pending)</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="plantId">Plant ID (Biological Identifier):</label>
-                <input type="text" id="plantId" placeholder="e.g., TOM-001" value="TOM-DEMO-001">
+                <input type="text" id="plantId" placeholder="e.g., TOM-001">
             </div>
         </section>
 
-        <!-- 2. Measurement -->
+        <!-- 2. Measurement Acquisition -->
         <section class="card" id="section-measurement">
-            <h2>2. Measurement Acquisition</h2>
-            <div class="demo-notice">
-                <strong>DEMO MODE:</strong> Hardware integration is deferred. Use the button below to load a valid 832-band spectrum from the existing research dataset.
+            <h2>2. Measurement Acquisition <span class="info-btn" data-title="Measurement Acquisition" data-text="This section obtains the spectral measurement associated with the selected experimental day. The current implementation uses the project's stored spectral measurements. Future sensor hardware can provide measurements through the same acquisition interface.">i</span></h2>
+            
+            <p class="text-muted" style="margin-bottom: 15px;">
+                <strong>Current input:</strong> Project Spectral Dataset
+            </p>
+
+            <div class="form-group">
+                <label for="experimentalDay">Experimental Day <span class="info-btn" data-title="Experimental Day" data-text="The day within the longitudinal experiment when the biological sample was measured.">i</span>:</label>
+                <select id="experimentalDay">
+                    <option value="d0">Day 0 (Pre-Treatment Baseline)</option>
+                    <option value="d2">Day 2</option>
+                    <option value="d4">Day 4</option>
+                    <option value="d7">Day 7</option>
+                    <option value="d14">Day 14</option>
+                </select>
             </div>
             <div class="actions">
-                <button id="btnLoadDemo" class="btn primary">Load Demo Spectrum</button>
+                <button id="btnLoadDataset" class="btn primary">Acquire Measurement</button>
             </div>
             
-            <div id="spectrumContainer" class="hidden">
-                <div class="success-text">✓ Spectrum acquired successfully (832 bands).</div>
-                <div class="chart-wrapper">
+            <div id="acquisitionStatus" style="display: none; margin-top: 15px; color: #5A8252; font-weight: bold;">
+                ✓ Measurement acquired
+            </div>
+
+            <div class="spectrum-container" style="margin-top: 20px; position: relative;">
+                <h3 style="margin-top: 0; font-size: 1.1em;">Spectrum Visualization <span class="info-btn" data-title="Spectrum" data-text="This graph shows leaf reflectance across wavelength. The measured spectrum is the primary input used by the preprocessing and machine-learning pipeline.">i</span></h3>
+                <div style="height: 250px;">
                     <canvas id="spectrumChart"></canvas>
                 </div>
-            </div>
-        </section>
-
-        <!-- 3. Diagnosis -->
-        <section class="card" id="section-diagnosis">
-            <h2>3. AI Diagnosis</h2>
-            <div class="actions">
-                <button id="btnDiagnose" class="btn primary" disabled>Run Diagnosis</button>
+                <div id="spectrumInfoPanel" class="info-panel" style="font-size: 0.85em; background: #eee; padding: 10px; margin-top: 10px; border-radius: 4px;">
+                    <!-- Filled via JS -->
+                </div>
             </div>
             
-            <div id="diagnosisResult" class="hidden result-box">
-                <h3 id="resDiagnosis">Control (Healthy)</h3>
-                <div class="res-meta">
-                    <span class="label">Confidence:</span> <span id="resConfidence">--%</span>
-                </div>
-                <div class="res-meta">
-                    <span class="label">Severity:</span> <span id="resSeverity">Not Supported in MVP</span>
-                </div>
-                <hr>
-                <div class="res-text">
-                    <strong>Interpretation:</strong>
-                    <p id="resInterpretation">...</p>
-                </div>
-                <div class="res-text">
-                    <strong>Recommendation:</strong>
-                    <p id="resRecommendation">...</p>
-                </div>
-                <div class="actions" style="margin-top: 1rem;">
-                    <button id="btnDownloadReport" class="btn secondary">Download PDF Report</button>
-                </div>
+            <div class="actions" style="margin-top: 20px;">
+                <button id="btnDiagnose" class="btn primary" disabled>Run AI Diagnosis</button>
             </div>
         </section>
 
-        <!-- 4. History -->
-        <section class="card" id="section-history">
-            <h2>4. Measurement History</h2>
-            <div class="actions">
-                <button id="btnLoadHistory" class="btn secondary">Refresh History</button>
+        <!-- 3. Spectral Feature Analysis -->
+        <section class="card" id="section-features" style="display: none;">
+            <h2>3. Spectral Feature Analysis <span class="info-btn" data-title="Spectral Feature Analysis" data-text="Features are mathematical measurements derived from specific parts of the spectrum and are used as inputs to the classifier.">i</span></h2>
+            <table class="data-table" id="featuresTable">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Value</th>
+                        <th>Spectral Region</th>
+                        <th>What it represents</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filled via JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 4. Diagnosis Result -->
+        <section class="card" id="section-result" style="display: none;">
+            <h2>4. AI Diagnosis Result <span class="info-btn" data-title="AI Diagnosis" data-text="The final output of the ML pipeline based on the measured spectrum.">i</span></h2>
+            
+            <div class="result-grid">
+                <div class="result-box">
+                    <h3>Predicted Condition</h3>
+                    <div id="resDiagnosis" class="value large">--</div>
+                </div>
+                <div class="result-box">
+                    <h3>Model Confidence <span class="info-btn" style="position:relative; top:-2px;" data-title="Model Confidence" data-text="The statistical confidence of the model classification.">i</span></h3>
+                    <div id="resConfidence" class="value">--</div>
+                </div>
             </div>
-            <div class="table-container">
-                <table id="historyTable">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Plant ID</th>
-                            <th>Diagnosis</th>
-                            <th>Confidence</th>
-                            <th>Report</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- History rows will be injected here -->
-                    </tbody>
-                </table>
-                <div id="historyEmpty" class="empty-text">No history found for this plant.</div>
+
+            <div class="info-section">
+                <h3>Model Class Probabilities <span class="info-btn" data-title="Class Probabilities" data-text="Class probability indicates how strongly the classifier assigns the measurement to each trained class; it does not represent the biological percentage or intensity of stress.">i</span></h3>
+                <div id="classProbsContainer" style="max-width: 400px; margin-top: 10px;"></div>
+            </div>
+
+            <div class="info-section" style="background: #fdfdfd; padding: 15px; border-left: 4px solid #ccc; margin-top: 15px;">
+                <h3 style="margin-top:0;">Severity Assessment: Not Validated <span class="info-btn" data-title="Severity" data-text="Example: A 90% model probability for Water Stress means the classifier assigns a high probability to the Water Stress class. It does NOT mean the plant is 90% water-stressed.">i</span></h3>
+                <p style="margin-bottom:0; font-size: 0.9em;">Biological severity is not currently estimated because the training data does not contain validated severity labels. The model's class probability indicates how strongly the classifier assigns the measurement to each trained class; it does not represent the biological percentage or intensity of stress.</p>
+            </div>
+
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+
+            <div class="info-section">
+                <h3>Model Explainability <span class="info-btn" data-title="Model Explainability" data-text="These features are among the most influential inputs used by the trained Random Forest classifier. They provide model-level evidence for how the classifier uses the extracted spectral information.">i</span></h3>
+                <p><em>Top model-level feature importance</em></p>
+                <div id="explainabilityContainer" style="margin-top: 10px;"></div>
+            </div>
+
+            <div class="info-section">
+                <h3>Potential Effects <span class="info-btn" data-title="Potential Effects" data-text="These are potential biological effects associated with the detected stress condition and are not direct measurements from the current spectrum.">i</span></h3>
+                <ul id="resPotentialEffects"></ul>
+            </div>
+
+            <div class="info-section">
+                <h3>Recommended Action <span class="info-btn" data-title="Recommendation" data-text="Condition-dependent plant management suggestions based on the classification.">i</span></h3>
+                <p id="resRecommendation">--</p>
+            </div>
+
+            <div class="actions">
+                <button id="btnDownloadReport" class="btn secondary">Generate Measurement Report</button>
             </div>
         </section>
+
+        <!-- 5. Plant Stress Timeline -->
+        <section class="card" id="section-timeline">
+            <h2>5. Plant Stress Timeline <span class="info-btn" data-title="Plant Stress Timeline" data-text="This timeline shows the sequence of measurements collected for the selected plant ID. Each point represents a separate measurement at an experimental day. It is intended to visualize changes in model output and confidence over time.">i</span></h2>
+            <div class="actions" style="margin-bottom: 15px; text-align: right;">
+                <button id="btnDownloadProgressReport" class="btn primary">Generate Plant Progress Report</button>
+            </div>
+            <div class="spectrum-container" style="height: 250px;">
+                <canvas id="timelineChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 6. Measurement History -->
+        <section class="card" id="section-history">
+            <h2>6. Measurement History <span class="info-btn" data-title="Measurement History" data-text="This table stores previous measurements for the selected plant ID, including acquisition time, experimental day, diagnosis and model confidence.">i</span></h2>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <button id="btnRefreshHistory" class="btn secondary">Refresh History</button>
+                <button id="btnClearHistory" class="btn" style="background-color: transparent; color: #d9534f; border: 1px solid #d9534f;">Clear History for Plant</button>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Exp. Day</th>
+                        <th>Condition</th>
+                        <th>Confidence</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Populated via JS -->
+                </tbody>
+            </table>
+        </section>
     </main>
+
+    <!-- System Overview Modal -->
+    <div id="overviewModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 650px;">
+            <h3>System Overview</h3>
+            <p class="text-muted" style="margin-bottom: 15px;">This system performs plant-specific multispectral stress classification using spectral measurements, engineered spectral features, and machine-learning models. Measurements can be stored over time for plant-wise history and progress tracking.</p>
+            
+            <div style="background: #fdfdfd; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace; font-size: 0.85em; margin-bottom: 15px; white-space: pre-wrap; line-height: 1.4;">Plant Selection → Plant ID → Leaf Measurement → Spectral Data Acquisition → Quality Check → Preprocessing → Spectral Feature Extraction → Plant-Specific ML Model → Stress Classification → Model Confidence → Plant-Specific Interpretation → Recommendation → Report Generation → History & Progress Tracking</div>
+
+            <ul style="font-size: 0.9em; color: #5A8252; margin-bottom: 15px; padding-left: 20px;">
+                <li>Multispectral spectral analysis</li>
+                <li>Plant-specific machine-learning classification</li>
+                <li>Model confidence and model-level explainability</li>
+                <li>Measurement history and plant-wise timeline</li>
+                <li>Individual diagnosis reports & Plant Health Progress Reports</li>
+            </ul>
+
+            <h4 style="margin-bottom: 5px;">Current Model Status</h4>
+            <ul style="font-size: 0.85em; margin-bottom: 15px; padding-left: 20px;">
+                <li><strong>Tomato:</strong> ML Model Available — tomato_research_rf_v1.0.0</li>
+                <li><strong>Spinach:</strong> Profile Ready — ML Model Pending Validation</li>
+                <li><strong>Chrysanthemum:</strong> Profile Ready — ML Model Pending Validation</li>
+                <li><strong>Peace Lily:</strong> Profile Ready — ML Model Pending Validation</li>
+            </ul>
+
+            <h4 style="margin-bottom: 5px;">Sensor Profile Information</h4>
+            <div style="font-size: 0.85em;">
+                <p><strong>CURRENT RESEARCH MODEL: VIS-NIR Research Spectrometer (832 bands)</strong><br>Research dataset representation (~395–1021 nm, 832 samples). Used by current Tomato research model.</p>
+                <p style="margin-top: 5px;"><strong>PLANNED PHYSICAL SENSOR: AS7341</strong><br>Low-cost multispectral sensor intended for the physical prototype. It does NOT directly produce the current 832-band input. A validated AS7341-specific preprocessing/model pipeline is required.</p>
+            </div>
+            
+            <div style="text-align: right; margin-top: 15px;">
+                <button id="btnCloseOverview" class="btn secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirm Modal -->
+    <div id="deleteModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
+            <h3 style="color: #d9534f;">Clear measurement history?</h3>
+            <p id="deleteModalText" style="margin: 15px 0; font-size: 0.9em;">This will permanently remove stored measurement records for the current plant, including its timeline and progress-report data. ML models, plant profiles, and application configuration will not be affected.</p>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button id="btnCancelDelete" class="btn secondary">Cancel</button>
+                <button id="btnConfirmDelete" class="btn" style="background-color: #d9534f; color: white; border: none;">Clear History</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal hidden">
+        <div class="modal-content">
+            <h3 id="infoModalTitle">Title</h3>
+            <p id="infoModalText">Text</p>
+            <div style="text-align: right;">
+                <button id="btnCloseModal" class="btn secondary">Close</button>
+            </div>
+        </div>
+    </div>
 
     <script src="/static/js/app.js"></script>
 </body>

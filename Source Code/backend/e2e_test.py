@@ -1,5 +1,6 @@
 import httpx
 import time
+import uuid
 
 BASE_URL = "http://127.0.0.1:8000"
 API_URL = f"{BASE_URL}/api/v1"
@@ -10,19 +11,20 @@ def end_to_end_test():
     # 1. Open frontend (Check if static files serve)
     res = httpx.get(f"{BASE_URL}/")
     assert res.status_code == 200
-    assert "AI Plant Stress Detection" in res.text
+    assert "Multispectral Plant Stress Classification" in res.text
     print("1. Frontend serves correctly.")
 
-    # 2. Plant Selection (Tomato) & 3. Plant ID (TOM-003)
+    # 2. Select Plant
     plant_species = "tomato"
-    plant_id = "TOM-003"
+    plant_id = f"TOM-E2E-{uuid.uuid4().hex[:6]}"
     print(f"2/3. Selected Plant: {plant_species}, ID: {plant_id}")
 
-    # 4. Load Demo Spectrum
-    res = httpx.get(f"{API_URL}/demo/spectrum?day=d2&index=0")
+    # 4. Load Dataset Spectrum
+    res = httpx.get(f"{API_URL}/dataset/spectrum?day=d2")
     assert res.status_code == 200
     spectrum = res.json()["spectral_data"]
-    print("4. Demo Spectrum loaded.")
+    sample_id = res.json()["sample_id"]
+    print("4. Dataset Spectrum loaded.")
 
     # 5. Confirm 832 bands
     assert len(spectrum) == 832
@@ -33,46 +35,73 @@ def end_to_end_test():
         "plant_species": plant_species,
         "plant_id": plant_id,
         "sensor_profile": "vis_nir_research",
-        "spectral_data": spectrum,
-        "is_demo": True
+        "experimental_day": "D2",
+        "sample_id": sample_id,
+        "spectral_data": spectrum
     }
     res = httpx.post(f"{API_URL}/diagnose", json=payload)
     assert res.status_code == 200
-    result = res.json()
+    diag = res.json()
+    measurement_id = diag["measurement_id"]
     print("6. Diagnosis executed.")
 
-    # 7/8/9. Confirm diagnosis, confidence, and severity
-    assert "diagnosis" in result
-    assert "model_confidence" in result
-    assert result["severity"] is None
-    print(f"7/8/9. Diagnosis: {result['diagnosis']} | Confidence: {result['model_confidence']:.4f} | Severity: {result['severity']}")
+    # 7. Check outputs
+    assert "Control" in diag["diagnosis"]
+    assert diag["model_confidence"] > 0.8
+    assert diag["severity"] is None
+    print(f"7/8/9. Diagnosis: {diag['diagnosis']} | Confidence: {diag['model_confidence']} | Severity: {diag['severity']}")
 
-    # 10. Confirm history record appears
+    # 10. Check History
     res = httpx.get(f"{API_URL}/history/{plant_id}")
     assert res.status_code == 200
     history = res.json()
-    assert len(history) >= 1
+    assert len(history) == 1
+    assert history[0]["measurement_id"] == measurement_id
     print("10. First measurement appears in history.")
 
-    # 11. Test PDF Report Download
-    measurement_id = result["measurement_id"]
+    # 11. Download Individual PDF
     res = httpx.get(f"{API_URL}/report/{measurement_id}")
     assert res.status_code == 200
-    assert "application/pdf" in res.headers["content-type"]
-    assert len(res.content) > 100
+    assert res.headers["content-type"] == "application/pdf"
     print("11. PDF Report successfully generated and downloaded.")
 
-    # 12. Perform second measurement
-    res = httpx.post(f"{API_URL}/diagnose", json=payload)
-    assert res.status_code == 200
+    # 12. Run a second diagnosis (Day 0)
+    res2 = httpx.get(f"{API_URL}/dataset/spectrum?day=d0")
+    spectrum2 = res2.json()["spectral_data"]
+    payload2 = {
+        "plant_species": plant_species,
+        "plant_id": plant_id,
+        "sensor_profile": "vis_nir_research",
+        "experimental_day": "D0",
+        "sample_id": res2.json()["sample_id"],
+        "spectral_data": spectrum2
+    }
+    httpx.post(f"{API_URL}/diagnose", json=payload2)
     print("12. Second measurement executed.")
 
-    # 13. Confirm both appear
+    # 13. Check History Again
     res = httpx.get(f"{API_URL}/history/{plant_id}")
     assert res.status_code == 200
-    history2 = res.json()
-    assert len(history2) > len(history)
+    assert len(res.json()) == 2
     print("13. Both measurements successfully appear in history.")
+    
+    # 14. Download Progress Report PDF
+    res = httpx.get(f"{API_URL}/report/progress/{plant_id}")
+    assert res.status_code == 200
+    assert res.headers["content-type"] == "application/pdf"
+    print("14. Progress Report PDF successfully generated and downloaded.")
+
+    # 15. Delete History
+    res = httpx.delete(f"{API_URL}/history/{plant_id}")
+    assert res.status_code == 200
+    assert res.json()["deleted_count"] == 2
+    print("15. History successfully deleted.")
+    
+    # 16. Verify Deletion
+    res = httpx.get(f"{API_URL}/history/{plant_id}")
+    assert res.status_code == 200
+    assert len(res.json()) == 0
+    print("16. Verified history is empty after deletion.")
 
     print("--- ALL TESTS PASSED SUCCESSFULLY ---")
 

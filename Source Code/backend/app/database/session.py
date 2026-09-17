@@ -8,7 +8,7 @@ BACKEND_DIR = SCRIPT_DIR.parent.parent
 DB_DIR = BACKEND_DIR / "database"
 DB_DIR.mkdir(parents=True, exist_ok=True)
 
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_DIR / 'history.db'}"
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_DIR / 'history_v2.db'}"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}

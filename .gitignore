@@ -61,4 +61,4 @@ test_report.pdf
 # Exclude unapproved Phase 8 artifacts
 Source Code/scripts/phase8_as7341_simulation.py
 Source Code/backend/models/tomato_as7341_rf_v1.0.0.joblib
-Results/phase8_as7341_simulation_report.json
+Source Code/Results/phase8_as7341_simulation_report.json
