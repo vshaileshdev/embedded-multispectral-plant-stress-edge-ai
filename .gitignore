@@ -55,10 +55,34 @@ Thumbs.db
 # Exclude raw datasets as they are external and should be downloaded separately
 Source Code/backend/data/raw/
 
-# Temporary artifacts from testing
+# Temporary artifacts from testing and development
 test_report.pdf
+*.before-recovery
+emergency-current-changes.patch
+index_head.html
+sim_browser.js
+
+# Temporary scripts in root directory
+add_landing_transition.py
+add_nav.py
+check_*.py
+find_script*.py
+fix_*.py
+get_structure.py
+patch_*.py
+populate_ws*.py
+rebuild_*.py
+restore_*.py
+run_final_runtime_verification.py
+test_*.py
+update_*.py
+verify_*.py
+
+# Root temporary screenshots
+screenshot_*.png
 
 # Exclude unapproved Phase 8 artifacts
 Source Code/scripts/phase8_as7341_simulation.py
 Source Code/backend/models/tomato_as7341_rf_v1.0.0.joblib
 Source Code/Results/phase8_as7341_simulation_report.json
+

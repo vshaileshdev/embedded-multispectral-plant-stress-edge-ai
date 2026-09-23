@@ -68,16 +68,273 @@
         }
     </style>
 </head>
-<body>
-    <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; text-align: left;">
-        <div>
-            <h1 style="margin-bottom: 0;">Multispectral Plant Stress Classification</h1>
-            <div class="subtitle" style="margin-top: 5px;">Embedded multispectral sensing and plant-specific machine-learning diagnosis</div>
-        </div>
-        <button id="btnSystemOverview" style="background-color: #AEC364; color: white; border: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">ⓘ System Overview</button>
-    </header>
+<body class="landing-active">
+    <!-- Landing Page Overlay -->
+    <div id="landing-page">
+        <div class="landing-content">
+            <h1 class="landing-title">Multispectral Plant Stress Classification</h1>
+            <div class="landing-subtitle">Embedded Sensor Fusion + Edge AI</div>
+            
+            <div class="landing-media-container" id="landingMedia">
+                <img src="/static/assets/landing/sensor-leaf-card.png" class="media-card-img primary-visual" alt="Sensor Leaf" />
+                <img src="/static/assets/landing/spectral-scan.png" class="media-card-img transition-visual" alt="Spectral Scan" />
+            </div>
+            
+            <p class="landing-description">
+                An embedded multispectral sensing system that captures plant spectral responses and uses machine learning to classify stress conditions.<br><br>
+                <small style="color: var(--highlight); font-weight: 600;">Multispectral Sensor &rarr; ESP32 &rarr; Signal Processing &rarr; Features &rarr; Machine Learning</small>
+            </p>
 
-    <main>
+            <div class="landing-controls">
+                <div class="scroll-indicator">Scroll to Explore &darr;</div>
+                <button id="btnEnterDashboard" class="btn-enter-dashboard">Enter Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Content Wrapper -->
+    <div id="dashboard-wrapper">
+    <div class="app-layout">
+        <header class="top-header">
+            <div class="th-brand">🌿 MULTISPECTRAL AI</div>
+            <div class="th-active-plant">Active Plant: <span id="headerActivePlant" style="font-weight:bold; color:var(--highlight);">TOM-001</span></div>
+            <div class="th-status">
+                <button id="btnSystemOverview" style="background-color: var(--primary-dark); color: white; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; margin-right: 12px;">ⓘ System Overview</button>
+                <span class="status-dot green"></span> READY
+            </div>
+        </header>
+
+        <div class="main-body">
+            <!-- Persistent Sidebar -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <div class="nav-group">
+                        <div class="nav-group-title">OVERVIEW</div>
+                        <a href="#" class="nav-link active" data-workspace="ws-overview">System Overview</a>
+                    </div>
+                    <div class="nav-group">
+                        <div class="nav-group-title">PLANT MANAGEMENT</div>
+                        <a href="#" class="nav-link" data-workspace="ws-plant-registry">Plant Registry</a>
+                        <a href="#" class="nav-link" data-workspace="ws-add-plant">Add Plant</a>
+                        <a href="#" class="nav-link" data-workspace="ws-plant-profile">Plant Profile</a>
+                    </div>
+                    <div class="nav-group">
+                        <div class="nav-group-title">MEASUREMENT</div>
+                        <a href="#" class="nav-link" data-workspace="ws-acquisition">Acquisition</a>
+                        <a href="#" class="nav-link" data-workspace="ws-raw-data">Raw Data</a>
+                    </div>
+                    <div class="nav-group">
+                        <div class="nav-group-title">ANALYSIS</div>
+                        <a href="#" class="nav-link" data-workspace="ws-processing">Processing & Features</a>
+                        <a href="#" class="nav-link" data-workspace="ws-ai-analysis">AI Analysis</a>
+                        <a href="#" class="nav-link" data-workspace="ws-diagnosis">Diagnosis</a>
+                    </div>
+                    <div class="nav-group">
+                        <div class="nav-group-title">RECORDS</div>
+                        <a href="#" class="nav-link" data-workspace="ws-history">History</a>
+                        <a href="#" class="nav-link" data-workspace="ws-reports">Reports</a>
+                    </div>
+                </nav>
+                <div class="sidebar-status-block">
+                    <div class="status-title">System Status</div>
+                    <div class="status-item"><span class="status-dot green"></span> Sensor: VIS-NIR (832ch)</div>
+                    <div class="status-item"><span class="status-dot green"></span> Model: RF v1.0.0 Online</div>
+                    <div class="status-item"><span class="status-dot green"></span> Engine: FastAPI Ready</div>
+                </div>
+            </aside>
+
+            <!-- Main Workspace Area -->
+            <main class="workspace-area">
+                <!-- 1. OVERVIEW WORKSPACE -->
+                <div id="ws-overview" class="workspace active">
+                    <div class="ws-header">
+                        <h2>System Overview</h2>
+                        <p>Plant monitoring and AI diagnosis system overview</p>
+                    </div>
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-title">Registered Plants</div>
+                            <div class="kpi-value" id="kpiRegisteredPlants">1</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Active Plant</div>
+                            <div class="kpi-value" id="kpiActivePlant" style="font-size: 1.2rem;">TOM-001</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="kpi-title">Latest Diagnosis</div>
+                            <div class="kpi-value" id="kpiLatestDiagnosis" style="font-size: 1.1rem; color: #4ade80;">Normal / Healthy</div>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-bottom: 20px;">
+                        <h3>Plant Stress Monitoring Pipeline</h3>
+                        <p style="color: #666; font-size: 0.95rem; margin-top: 5px;">
+                            Multispectral Sensor &rarr; ESP32 Edge Device &rarr; Spectral Normalization &rarr; Feature Extraction &rarr; Plant-Specific Random Forest Classifier &rarr; Automated Health Report
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 2. PLANT REGISTRY WORKSPACE -->
+                <div id="ws-plant-registry" class="workspace">
+                    <div class="ws-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <h2>Plant Registry</h2>
+                            <p>Catalog of registered specimens and active spectral profiles</p>
+                        </div>
+                        <button class="btn primary" onclick="navigateToWorkspace('ws-add-plant')">+ Register New Plant</button>
+                    </div>
+                    <div class="card">
+                        <table class="data-table" id="registryTable">
+                            <thead>
+                                <tr>
+                                    <th>Plant ID</th>
+                                    <th>Specimen Name & Species</th>
+                                    <th>Cultivar</th>
+                                    <th>Growth Stage</th>
+                                    <th>Model Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="registryTableBody">
+                                <tr>
+                                    <td><strong>TOM-001</strong></td>
+                                    <td>Tomato Alpha <em>(tomato)</em></td>
+                                    <td>Standard Research</td>
+                                    <td>Vegetative</td>
+                                    <td><span style="color:#5A8252; font-weight:bold;">Active (v1.0.0)</span></td>
+                                    <td>
+                                        <button class="btn secondary" style="padding:4px 8px; font-size:0.8rem; margin-right:6px;" onclick="setActivePlantById('TOM-001')">Select</button>
+                                        <button class="btn" style="padding:4px 8px; font-size:0.8rem; background:var(--bg-light); color:var(--primary-dark);" onclick="viewPlantProfileById('TOM-001')">View Profile</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 3. ADD PLANT WORKSPACE -->
+                <div id="ws-add-plant" class="workspace">
+                    <div class="ws-header">
+                        <h2>Add Plant Specimen</h2>
+                        <p>Register a new plant specimen for spectral tracking and longitudinal analysis</p>
+                    </div>
+                    <div class="card" style="max-width: 750px;">
+                        <form id="formAddPlant">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="form-group">
+                                    <label for="newPlantId">Plant ID *</label>
+                                    <input type="text" id="newPlantId" placeholder="e.g. TOM-002" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantName">Specimen Name *</label>
+                                    <input type="text" id="newPlantName" placeholder="e.g. Tomato Beta" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantSpecies">Species *</label>
+                                    <select id="newPlantSpecies" required>
+                                        <option value="tomato">Tomato (Solanum lycopersicum)</option>
+                                        <option value="spinach">Spinach (Spinacia oleracea)</option>
+                                        <option value="chrysanthemum">Chrysanthemum (Chrysanthemum morifolium)</option>
+                                        <option value="peace_lily">Peace Lily (Spathiphyllum)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantCultivar">Cultivar / Variety</label>
+                                    <input type="text" id="newPlantCultivar" placeholder="e.g. Micro-Tom">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantGrowthStage">Growth Stage</label>
+                                    <select id="newPlantGrowthStage">
+                                        <option value="Seedling">Seedling</option>
+                                        <option value="Vegetative" selected>Vegetative</option>
+                                        <option value="Flowering">Flowering</option>
+                                        <option value="Fruiting">Fruiting</option>
+                                        <option value="Mature">Mature</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantDateAcquired">Date Acquired</label>
+                                    <input type="date" id="newPlantDateAcquired">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantSoilType">Soil Type</label>
+                                    <input type="text" id="newPlantSoilType" placeholder="e.g. Peat & Perlite (1:1)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantSoilPh">Soil pH</label>
+                                    <input type="number" id="newPlantSoilPh" step="0.1" min="0" max="14" placeholder="6.5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantWatering">Watering Regime</label>
+                                    <input type="text" id="newPlantWatering" placeholder="e.g. 150ml every 48h">
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPlantNutrient">Nutrient Regime</label>
+                                    <input type="text" id="newPlantNutrient" placeholder="e.g. Half-strength Hoagland">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 10px;">
+                                <label for="newPlantInitialCondition">Initial Biological Condition</label>
+                                <input type="text" id="newPlantInitialCondition" placeholder="e.g. Healthy vigorous growth, baseline">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPlantNotes">Additional Notes</label>
+                                <textarea id="newPlantNotes" rows="2" style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:4px; font-family:inherit;"></textarea>
+                            </div>
+                            <div id="addPlantMessage" style="display:none; margin-bottom: 12px; font-weight: 600;"></div>
+                            <div class="actions" style="margin-top: 15px;">
+                                <button type="submit" id="btnSubmitAddPlant" class="btn primary">Register Plant Specimen</button>
+                                <button type="button" class="btn secondary" onclick="navigateToWorkspace('ws-plant-registry')">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 4. PLANT PROFILE WORKSPACE -->
+                <div id="ws-plant-profile" class="workspace">
+                    <div class="ws-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <h2>Plant Profile: <span id="profHeaderId">TOM-001</span></h2>
+                            <p>Biological specimen details, agronomic baseline, and spectral diagnostic capabilities</p>
+                        </div>
+                        <button id="btnProfileSetActive" class="btn secondary" style="font-size:0.85rem;" onclick="setActivePlantFromProfile()">★ Set as Active Plant</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="card">
+                            <h3 style="color:var(--primary-dark); margin-bottom:12px; font-size:1.1rem; border-bottom:1px solid var(--border); padding-bottom:6px;">Specimen Information</h3>
+                            <p style="margin-bottom:8px;"><strong>Identifier:</strong> <span id="profPlantId">TOM-001</span></p>
+                            <p style="margin-bottom:8px;"><strong>Name:</strong> <span id="profName">Tomato Alpha</span></p>
+                            <p style="margin-bottom:8px;"><strong>Scientific Species:</strong> <span id="profSpecies">Tomato (Solanum lycopersicum)</span></p>
+                            <p style="margin-bottom:8px;"><strong>Cultivar:</strong> <span id="profCultivar">Standard Research</span></p>
+                            <p style="margin-bottom:8px;"><strong>Growth Stage:</strong> <span id="profGrowthStage">Vegetative</span></p>
+                            <p style="margin-bottom:8px;"><strong>Date Acquired:</strong> <span id="profDateAcquired">2026-03-01</span></p>
+                        </div>
+                        <div class="card">
+                            <h3 style="color:var(--primary-dark); margin-bottom:12px; font-size:1.1rem; border-bottom:1px solid var(--border); padding-bottom:6px;">Agronomic Baseline</h3>
+                            <p style="margin-bottom:8px;"><strong>Soil Formulation:</strong> <span id="profSoilType">Loam potting mix</span></p>
+                            <p style="margin-bottom:8px;"><strong>Soil Condition & pH:</strong> <span id="profSoilCondition">Optimal (pH 6.5)</span></p>
+                            <p style="margin-bottom:8px;"><strong>Watering Regime:</strong> <span id="profWatering">150ml every 48h</span></p>
+                            <p style="margin-bottom:8px;"><strong>Nutrient Regime:</strong> <span id="profNutrients">Half-strength Hoagland solution</span></p>
+                            <p style="margin-bottom:8px;"><strong>Initial Condition:</strong> <span id="profInitialCondition">Healthy baseline</span></p>
+                        </div>
+                    </div>
+                    <div class="card" style="margin-top: 15px;">
+                        <h3 style="color:var(--primary-dark); margin-bottom:12px; font-size:1.1rem; border-bottom:1px solid var(--border); padding-bottom:6px;">Diagnostic Model & Sensing Capabilities</h3>
+                        <p style="margin-bottom:8px;"><strong>Active Model:</strong> <span id="profModelStatus" style="color:#5A8252; font-weight:bold;">tomato_research_rf_v1.0.0 (Validated)</span></p>
+                        <p style="margin-bottom:8px;"><strong>Sensor Profile:</strong> <span id="profSensorProfile">VIS-NIR Research Spectrometer (832 bands, 395–1021 nm)</span></p>
+                        <p style="margin-bottom:8px;"><strong>Supported Stress Classes:</strong> <span id="profSupportedStresses">Control (Healthy), Water Stress, Nitrogen Deficiency</span></p>
+                        <div class="actions" style="margin-top:15px;">
+                            <button class="btn primary" onclick="navigateToWorkspace('ws-acquisition')">Proceed to Measurement Acquisition &rarr;</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 5. ACQUISITION WORKSPACE -->
+                <div id="ws-acquisition" class="workspace">
+                    <div class="ws-header">
+                        <h2>Measurement Acquisition</h2>
+                        <p>Acquire spectral response data from specimen</p>
+                    </div>
         <!-- 1. Plant Selection & ID -->
         <section class="card" id="section-setup">
             <h2>1. Plant Setup <span class="info-btn" data-title="Plant Setup" data-text="This section identifies the plant being analyzed. Plant species determines which plant-specific model, stress categories and interpretation rules are used.">i</span></h2>
@@ -145,25 +402,167 @@
                 <button id="btnDiagnose" class="btn primary" disabled>Run AI Diagnosis</button>
             </div>
         </section>
+        </div><!-- /#ws-acquisition -->
 
-        <!-- 3. Spectral Feature Analysis -->
-        <section class="card" id="section-features" style="display: none;">
-            <h2>3. Spectral Feature Analysis <span class="info-btn" data-title="Spectral Feature Analysis" data-text="Features are mathematical measurements derived from specific parts of the spectrum and are used as inputs to the classifier.">i</span></h2>
-            <table class="data-table" id="featuresTable">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>Value</th>
-                        <th>Spectral Region</th>
-                        <th>What it represents</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Filled via JS -->
-                </tbody>
-            </table>
-        </section>
+        <!-- 6. RAW DATA WORKSPACE -->
+        <div id="ws-raw-data" class="workspace">
+            <div class="ws-header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+                <div>
+                    <h2>Raw Spectral Data</h2>
+                    <p>Calibrated spectral curve visualization across 832 bands (395–1021 nm)</p>
+                </div>
+                <button class="btn primary" id="btnDiagnoseRaw" onclick="document.getElementById('btnDiagnose')?.click(); navigateToWorkspace('ws-diagnosis');">Run AI Diagnosis &rarr;</button>
+            </div>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Active Specimen</div>
+                    <div class="kpi-value" id="rawPlantId" style="font-size: 1.2rem;">TOM-001</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Experimental Day</div>
+                    <div class="kpi-value" id="rawExpDay" style="font-size: 1.2rem;">D0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Spectral Bands</div>
+                    <div class="kpi-value" style="font-size: 1.2rem;">832 Channels</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Spectral Coverage</div>
+                    <div class="kpi-value" style="font-size: 1.2rem;">395–1021 nm</div>
+                </div>
+            </div>
+            <div class="card">
+                <h3 style="margin-bottom: 8px;">Spectral Reflectance Curve</h3>
+                <p style="color:#666; font-size:0.9rem; margin-bottom:12px;">Full continuous spectrum acquired from sensor. Visualizing reflectance ratio values across Visible and Near-Infrared spectra.</p>
+                <div style="background:#fdfdfd; border:1px solid var(--border); border-radius:6px; padding:12px; margin-bottom:15px;">
+                    <table class="data-table" id="rawBandsTable" style="margin-top:0;">
+                        <thead>
+                            <tr>
+                                <th>Region</th>
+                                <th>Representative Band</th>
+                                <th>Sample Reflectance</th>
+                                <th>Physiological Role</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rawBandsTableBody">
+                            <tr><td>Blue Violet</td><td>400 nm</td><td id="rb400">--</td><td>Chlorophyll a & carotenoid absorption</td></tr>
+                            <tr><td>Blue Absorption</td><td>450 nm</td><td id="rb450">--</td><td>Maximum chlorophyll absorption minimum</td></tr>
+                            <tr><td>Green Peak</td><td>550 nm</td><td id="rb550">--</td><td>Vegetation reflectance peak (green leaf visual)</td></tr>
+                            <tr><td>Red Absorption</td><td>670 nm</td><td id="rb670">--</td><td>Maximum chlorophyll b absorption dip</td></tr>
+                            <tr><td>Red Edge</td><td>705 nm</td><td id="rb705">--</td><td>Inflection transition to cellular scattering</td></tr>
+                            <tr><td>NIR Plateau</td><td>750 nm</td><td id="rb750">--</td><td>Spongy mesophyll cell scattering plateau</td></tr>
+                            <tr><td>Water Absorption</td><td>970 nm</td><td id="rb970">--</td><td>Liquid water overtone absorption band</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="actions">
+                    <button class="btn secondary" onclick="navigateToWorkspace('ws-acquisition')">Back to Acquisition</button>
+                    <button class="btn primary" onclick="navigateToWorkspace('ws-processing')">View Processing & Features &rarr;</button>
+                </div>
+            </div>
+        </div>
 
+        <!-- 7. PROCESSING & FEATURES WORKSPACE -->
+        <div id="ws-processing" class="workspace">
+            <div class="ws-header">
+                <h2>Processing & Features</h2>
+                <p>Engineered vegetation indices and spectral reflectance features</p>
+            </div>
+            <div class="card" id="processingIntroCard">
+                <h3>Signal Preprocessing & Feature Extraction Pipeline</h3>
+                <p style="color:#666; font-size:0.9rem; margin:8px 0 12px 0;">
+                    Raw sensor curves pass through Savitzky-Golay filtering (window length: 11, polynomial order: 2) to eliminate high-frequency electronic noise without attenuating critical physiological inflection points (such as the red edge). Next, 14 calibrated physiological features are computed:
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; font-size: 0.85rem;">
+                    <div style="background:var(--bg-light); padding:8px 12px; border-radius:4px;"><strong>NDVI / GNDVI:</strong> Canopy vigor & nitrogen index</div>
+                    <div style="background:var(--bg-light); padding:8px 12px; border-radius:4px;"><strong>NDRE:</strong> Red-edge chlorophyll sensitivity</div>
+                    <div style="background:var(--bg-light); padding:8px 12px; border-radius:4px;"><strong>WBI (900/970nm):</strong> Cellular water status</div>
+                    <div style="background:var(--bg-light); padding:8px 12px; border-radius:4px;"><strong>VIS & NIR Means:</strong> Broadband reflection ratios</div>
+                </div>
+            </div>
+            
+            <div id="featuresPlaceholder" class="card" style="text-align: center; padding: 2rem;">
+                <p style="color: #666; margin-bottom: 12px;">No spectral features extracted yet for the active measurement.</p>
+                <button class="btn primary" onclick="navigateToWorkspace('ws-acquisition')">Acquire & Diagnose</button>
+            </div>
+
+            <!-- 3. Spectral Feature Analysis -->
+            <section class="card" id="section-features" style="display: none;">
+                <h2>3. Spectral Feature Analysis <span class="info-btn" data-title="Spectral Feature Analysis" data-text="Features are mathematical measurements derived from specific parts of the spectrum and are used as inputs to the classifier.">i</span></h2>
+                <table class="data-table" id="featuresTable">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Value</th>
+                            <th>Spectral Region</th>
+                            <th>What it represents</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Filled via JS -->
+                    </tbody>
+                </table>
+                <div class="actions" style="margin-top:15px;">
+                    <button class="btn primary" onclick="navigateToWorkspace('ws-ai-analysis')">View AI Inference Analysis &rarr;</button>
+                </div>
+            </section>
+        </div><!-- /#ws-processing -->
+
+        <!-- 8. AI ANALYSIS WORKSPACE -->
+        <div id="ws-ai-analysis" class="workspace">
+            <div class="ws-header" style="display:flex; justify-content:space-between; align-items:flex-end;">
+                <div>
+                    <h2>AI Inference & Explainability</h2>
+                    <p>Model confidence distribution, class probability breakdown, and feature importance</p>
+                </div>
+                <button class="btn primary" onclick="navigateToWorkspace('ws-diagnosis')">View Full Diagnosis &rarr;</button>
+            </div>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">ML Architecture</div>
+                    <div class="kpi-value" style="font-size: 1.1rem;">Random Forest</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Classifier Model</div>
+                    <div class="kpi-value" style="font-size: 1.0rem; color:var(--primary-dark);">tomato_rf_v1.0.0</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Inference Result</div>
+                    <div class="kpi-value" id="aiKpiPred" style="font-size: 1.1rem; color: #4ade80;">--</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Model Confidence</div>
+                    <div class="kpi-value" id="aiKpiConf" style="font-size: 1.2rem;">--</div>
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                <div class="card">
+                    <h3>Class Probability Breakdown</h3>
+                    <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Ensemble tree vote distributions across all trained biological stress classes.</p>
+                    <div id="aiAnalysisProbsContainer">
+                        <p style="color:#888; font-style:italic;">Run AI Diagnosis to view class probability distribution.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Model Explainability & Feature Ranks</h3>
+                    <p style="color:#666; font-size:0.85rem; margin-bottom:12px;">Top spectral features contributing to the ensemble model's classification decision.</p>
+                    <div id="aiAnalysisFeatContainer">
+                        <p style="color:#888; font-style:italic;">Run AI Diagnosis to view top influential features.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. DIAGNOSIS WORKSPACE -->
+        <div id="ws-diagnosis" class="workspace">
+            <div class="ws-header">
+                <h2>Scientific Diagnosis</h2>
+                <p>Plant stress classification, severity assessment, and mitigation recommendations</p>
+            </div>
+            <div id="diagnosisPlaceholder" class="card" style="text-align: center; padding: 2rem;">
+                <p style="color: #666; margin-bottom: 12px;">No diagnostic assessment run yet for this specimen.</p>
+                <button class="btn primary" onclick="navigateToWorkspace('ws-acquisition')">Acquire & Run AI Diagnosis</button>
+            </div>
         <!-- 4. Diagnosis Result -->
         <section class="card" id="section-result" style="display: none;">
             <h2>4. AI Diagnosis Result <span class="info-btn" data-title="AI Diagnosis" data-text="The final output of the ML pipeline based on the measured spectrum.">i</span></h2>
@@ -211,7 +610,14 @@
                 <button id="btnDownloadReport" class="btn secondary">Generate Measurement Report</button>
             </div>
         </section>
+        </div><!-- /#ws-diagnosis -->
 
+        <!-- 10. HISTORY WORKSPACE -->
+        <div id="ws-history" class="workspace">
+            <div class="ws-header">
+                <h2>Measurement History & Timeline</h2>
+                <p>Historical spectral health progression and chronological log</p>
+            </div>
         <!-- 5. Plant Stress Timeline -->
         <section class="card" id="section-timeline">
             <h2>5. Plant Stress Timeline <span class="info-btn" data-title="Plant Stress Timeline" data-text="This timeline shows the sequence of measurements collected for the selected plant ID. Each point represents a separate measurement at an experimental day. It is intended to visualize changes in model output and confidence over time.">i</span></h2>
@@ -246,7 +652,35 @@
                 </tbody>
             </table>
         </section>
-    </main>
+        </div><!-- /#ws-history -->
+
+        <!-- 11. REPORTS WORKSPACE -->
+        <div id="ws-reports" class="workspace">
+            <div class="ws-header">
+                <h2>Scientific Reports</h2>
+                <p>Generate certified PDF diagnostic and longitudinal health progress reports</p>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="card">
+                    <h3 style="color:var(--primary-dark); margin-bottom:8px;">Single-Measurement Diagnostic Report</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:16px;">
+                        Generates an official single-page PDF report documenting calibrated 832-band spectral reflectance, 14 computed vegetation indices, predicted stress category, confidence metric, and agronomist-recommended intervention protocols.
+                    </p>
+                    <button class="btn secondary" onclick="document.getElementById('btnDownloadReport')?.click();">Download Latest Diagnosis PDF</button>
+                </div>
+                <div class="card">
+                    <h3 style="color:var(--primary-dark); margin-bottom:8px;">Longitudinal Progress Tracking Report</h3>
+                    <p style="color:#666; font-size:0.9rem; margin-bottom:8px;">
+                        Compiles the multi-measurement chronological record for specimen <strong id="reportActivePlantLabel">TOM-001</strong>. Visualizes health trajectory, condition shifts, and treatment effectiveness over time.
+                    </p>
+                    <p style="color:#888; font-size:0.8rem; margin-bottom:16px;">Specimen ID: <span id="reportActivePlantId">TOM-001</span></p>
+                    <button class="btn secondary" onclick="document.getElementById('btnDownloadProgressReport')?.click();">Download Plant Progress Report PDF</button>
+                </div>
+            </div>
+        </div>
+    </main><!-- /.workspace-area -->
+    </div><!-- /.main-body -->
+    </div><!-- /.app-layout -->
 
     <!-- System Overview Modal -->
     <div id="overviewModal" class="modal hidden">
@@ -306,6 +740,7 @@
             </div>
         </div>
     </div>
+    </div><!-- /#dashboard-wrapper -->
 
     <script src="/static/js/app.js"></script>
 </body>

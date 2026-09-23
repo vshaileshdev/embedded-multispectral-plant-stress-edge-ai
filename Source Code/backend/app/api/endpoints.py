@@ -1,3 +1,6 @@
+from app.schemas.plant import PlantCreate, PlantResponse
+from app.database.models import PlantRegistry
+from sqlalchemy.exc import IntegrityError
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -150,3 +153,19 @@ def load_dataset_spectrum(day: str = Query("d2")):
     """
     return get_dataset_spectrum(day)
 
+
+@router.post("/plants", response_model=PlantResponse)
+def create_plant(plant: PlantCreate, db: Session = Depends(get_db)):
+    db_plant = PlantRegistry(**plant.model_dump())
+    db.add(db_plant)
+    try:
+        db.commit()
+        db.refresh(db_plant)
+        return db_plant
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Plant ID already exists")
+
+@router.get("/plants", response_model=list[PlantResponse])
+def get_plants(db: Session = Depends(get_db)):
+    return db.query(PlantRegistry).all()
